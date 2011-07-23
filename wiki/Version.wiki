@@ -1,0 +1,6 @@
+#summary Version description
+
+0.1
+
+花了一个星期，从C++移植过来，可以正常运行，但比原版本缺少一些功能。
+使用与原版moses一模一样。
