@@ -1,4 +1,5 @@
-#version 0.1
+#summary One-sentence summary of this page.
+
 = Introduction =
 
 花了一个星期，从C++移植过来，可以正常运行，但比原版本缺少一些功能。
