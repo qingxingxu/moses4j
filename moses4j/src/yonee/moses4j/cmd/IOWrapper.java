@@ -32,7 +32,6 @@ import yonee.moses4j.moses.WordsRange;
 import yonee.moses4j.moses.TypeDef.FactorDirection;
 import yonee.moses4j.moses.TypeDef.InputTypeEnum;
 import yonee.utils.ASSERT;
-import yonee.utils.ByteUtils;
 import yonee.utils.TRACE;
 import yonee.utils.VERBOSE;
 
@@ -268,7 +267,7 @@ public class IOWrapper {
 				out.append("|");
 				out.append(hypo.getCurrSourceWordsRange().getStartPos() + "");
 				out.append("-");
-				out.append(ByteUtils.getBytes(hypo.getCurrSourceWordsRange().getEndPos()) + "");
+				out.append(hypo.getCurrSourceWordsRange().getEndPos() + "");
 				out.append("|");
 
 			}
@@ -285,9 +284,9 @@ public class IOWrapper {
 			if (reportSegmentation && edge.getCurrTargetPhrase().getSize() > 0) {
 
 				out.append("|");
-				out.append(ByteUtils.getBytes(edge.getCurrSourceWordsRange().getStartPos()) + "");
+				out.append(edge.getCurrSourceWordsRange().getStartPos() + "");
 				out.append("-");
-				out.append(ByteUtils.getBytes(edge.getCurrSourceWordsRange().getEndPos()) + "");
+				out.append(edge.getCurrSourceWordsRange().getEndPos() + "");
 				out.append("| ");
 			}
 		}
@@ -336,7 +335,7 @@ public class IOWrapper {
 			final List<Hypothesis> edges = path.getEdges();
 
 			// print the surface factor of the translation
-			out.append(ByteUtils.getBytes(translationId) + "");
+			out.append(translationId + "");
 			out.append(" ||| ");
 			for (int currEdge = (int) edges.size() - 1; currEdge >= 0; currEdge--) {
 				final Hypothesis edge = edges.get(currEdge);

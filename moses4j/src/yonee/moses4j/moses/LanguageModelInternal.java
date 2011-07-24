@@ -1,16 +1,17 @@
 package yonee.moses4j.moses;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.FileReader;
-import java.util.ArrayList;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 import yonee.moses4j.moses.TypeDef.FactorDirection;
 import yonee.utils.ASSERT;
-import yonee.utils.CollectionUtils;
 import yonee.utils.Ref;
 import yonee.utils.VERBOSE;
 
@@ -21,12 +22,12 @@ import yonee.utils.VERBOSE;
  */
 public class LanguageModelInternal extends LanguageModelSingleFactor {
 
-	protected List<NGramNode> m_lmIdLookup = new ArrayList<NGramNode>();
-	protected NGramCollection m_map;
+	protected NGramNode[] m_lmIdLookup ;//= new ArrayList<NGramNode>();
+	protected NGramCollection m_map = new NGramCollection();
 
 	protected final NGramNode getLmID(final Factor factor) {
 		int factorId = factor.getId();
-		return (factorId >= m_lmIdLookup.size()) ? null : m_lmIdLookup.get(factorId);
+		return (factorId >= m_lmIdLookup.length) ? null : m_lmIdLookup[factorId];
 	};
 
 	protected float getValue(final Factor factor0, Ref<Object> finalState) {
@@ -179,8 +180,13 @@ public class LanguageModelInternal extends LanguageModelSingleFactor {
 
 		// read in file
 		VERBOSE.v(1, filePath + "\n");
-
-		BufferedReader br = new BufferedReader(new FileReader(filePath));
+		BufferedReader br = null;
+		if (filePath.endsWith(".gz")) {
+			br = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(
+					filePath))));
+		} else {
+			br = new BufferedReader(new FileReader(filePath));
+		}
 
 		// to create lookup vector later on
 		int maxFactorId = 0;
@@ -231,13 +237,13 @@ public class LanguageModelInternal extends LanguageModelSingleFactor {
 				}
 			}
 		}
-		
+
 		br.close();
 
-		CollectionUtils.resize(m_lmIdLookup, maxFactorId + 1, null);
+		m_lmIdLookup = new NGramNode[maxFactorId + 1];
 
 		for (Map.Entry<Integer, NGramNode> e : lmIdMap.entrySet()) {
-			m_lmIdLookup.set(e.getKey(), e.getValue());
+			m_lmIdLookup[e.getKey()] =  e.getValue();
 		}
 
 		return true;

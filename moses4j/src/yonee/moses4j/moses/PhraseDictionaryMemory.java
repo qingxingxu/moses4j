@@ -138,7 +138,7 @@ public class PhraseDictionaryMemory extends PhraseDictionary {
 		}
 		// sort each target phrase collection
 		m_collection.sort(m_tableLimit);
-
+		
 		return true;
 
 	}

@@ -1,8 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
 
-
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 
 public class TestUnknow {
@@ -11,37 +14,46 @@ public class TestUnknow {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//System.out.println("abc".substring(0,1));
-		
-		//System.out.println("the ||| ет ||| 0.3 ||| |||".indexOf("|||", 22));
-		//StringWriter out = new StringWriter();
-		
-		//PrintWriter pw = new PrintWriter(out);
-		
-		//System.out.println(out.toString());
-		//PrintStream ps =  new PrintStream(out);
-		Integer s= 1;
-		change(s);
-		System.out.println(s);
-		
+		// System.out.println("abc".substring(0,1));
+
+		// System.out.println("the ||| ет ||| 0.3 ||| |||".indexOf("|||", 22));
+		// StringWriter out = new StringWriter();
+
+		// PrintWriter pw = new PrintWriter(out);
+
+		// System.out.println(out.toString());
+		// PrintStream ps = new PrintStream(out);
+
+		try {
+			testGzip();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
-	
-	public static void change(Integer s){
-		
+
+	public static void testGzip() throws IOException {
+		BufferedReader zip = new BufferedReader(new InputStreamReader(new GZIPInputStream(
+				new FileInputStream("e:/nlpcode/sample-models/lm/chinese.lm.gz"))));
+
+		String line;
+		while ((line = zip.readLine()) != null) {
+			System.out.println(line);
+		}
+		zip.close();
+
 	}
-	
 
 	public static void testFile() {
 
 		try {
 			RandomAccessFile r = new RandomAccessFile("e:/a.test", "rw");
 
-			//r.write(8);
+			// r.write(8);
 			r.writeLong(500);
 			r.writeChars("aaaa");
 			r.close();
-			
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

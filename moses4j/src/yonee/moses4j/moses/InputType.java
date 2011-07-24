@@ -31,7 +31,7 @@ public interface InputType {
 		public Impl() {
 			this(0);
 		}
-
+		
 		public Impl(long translationId) {
 			m_translationId = translationId;
 			m_frontSpanCoveredLength = 0;
